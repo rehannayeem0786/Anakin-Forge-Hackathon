@@ -16,6 +16,7 @@ const state = {
   running: false,
   expanded: false,       // "show all candidates" on the decision panel
   lastDecision: null,
+  hasAnakinKey: false,   // set from /api/config; the approval card wording depends on it
 };
 
 /* ------------------------------------------------------------------ utils */
@@ -48,6 +49,7 @@ async function loadConfig() {
   try {
     const cfg = await (await fetch("/api/config")).json();
     const rt = cfg.runtime;
+    state.hasAnakinKey = !!rt.has_anakin_key;
 
     const modePill = $("pill-mode");
     const modeLabel = {
@@ -343,7 +345,7 @@ function renderApproval(d) {
     <div class="act-box pending">
       <div class="act-title">Approval required</div>
       <div class="act-detail">
-        ARGUS wants to prepare this ${(cfg.runtime && cfg.runtime.has_anakin_key)
+        ARGUS wants to prepare this ${(state.hasAnakinKey)
           ? "in Anakin's stealth cloud browser"
           : "in a local headless browser (no key needed)"}:
         <br /><span class="muted" style="font-family:var(--mono);font-size:11px;word-break:break-all">${esc(d.target || "—")}</span>

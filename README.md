@@ -1,5 +1,7 @@
 # ARGUS
 
+![tests](https://img.shields.io/badge/tests-50%20passing-brightgreen) ![python](https://img.shields.io/badge/python-3.11%2B-blue) ![license](https://img.shields.io/badge/license-MIT-green) ![keyless](https://img.shields.io/badge/Anakin-Zero%20Touch%20%2B%20keyless-orange)
+
 **Read the web. Reason it through. Get it done.**
 
 An autonomous agent that takes a goal written in plain English, reads the live web to
@@ -232,7 +234,7 @@ server/
   app.py                   FastAPI: /api/run, /api/stream (SSE), /api/approve, ...
   static/                  the UI (vanilla JS, no build step)
 tests/
-  test_smoke.py            unit + end-to-end assertions on the engine (47 tests)
+  test_smoke.py            unit + end-to-end assertions on the engine (50 tests)
   robustness_sweep.py      20 hostile goals — must terminate, and not overclaim
   ui_contract_check.py     drives the real SSE contract the browser consumes
   ui_browser_check.js      runs the UI in headless Chrome over CDP, fails on JS errors
