@@ -320,10 +320,24 @@ class ActionExecutor:
                     note("connect", "No ANAKIN_API_KEY — driving a local headless Chromium instead "
                                     "of Anakin's stealth cloud browser. Same flow, same halt, no key.")
                     browser = await p.chromium.launch(headless=True)
-                    page = await browser.new_page()
+                    context = await browser.new_context(
+                        user_agent=("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                    "Chrome/140.0.0.0 Safari/537.36"),
+                        viewport={"width": 1366, "height": 768},
+                        locale="en-US",
+                    )
+                    page = await context.new_page()
 
                 note("navigate", f"Opening {target}")
-                await page.goto(target, wait_until="domcontentloaded", timeout=45000)
+                try:
+                    await page.goto(target, wait_until="domcontentloaded", timeout=45000)
+                except Exception as nav_exc:  # noqa: BLE001
+                    # Some sites abort slow loads or fingerprint the default context.
+                    # One retry with looser semantics before calling it a block.
+                    note("retry", f"First navigation failed ({type(nav_exc).__name__}) — "
+                                  f"retrying with looser semantics.")
+                    await page.goto(target, wait_until="commit", timeout=45000)
                 await asyncio.sleep(1.5)
                 note("loaded", f"Title: {await page.title()}")
 
@@ -372,7 +386,9 @@ class ActionExecutor:
                 except Exception:  # noqa: BLE001
                     pass
         except Exception as exc:  # noqa: BLE001 - fall back, never crash the run
-            note("degrade", f"Browser unavailable ({type(exc).__name__}). Simulation mode.")
+            note("degrade", f"Browser unavailable ({type(exc).__name__}: {str(exc)[:120]}). "
+                            f"Simulation mode. Retail sites often block automated browsers — "
+                            f"Anakin's stealth cloud browser (free key) handles this upstream.")
             rec.output = self._simulated_transcript(rec, decision, run_dir)
             rec.output["transcript"] = transcript + rec.output.get("transcript", [])
             return rec
@@ -401,11 +417,12 @@ class ActionExecutor:
                 {"label": "Payment method", "type": "select"},
             ],
             "why_simulated": (
-                "Playwright and/or ANAKIN_API_KEY not available in this environment."
+                "Playwright/ANAKIN_API_KEY unavailable in this environment, or the target "
+                "site refused the automated browser (bot protection)."
             ),
             "how_to_go_live": (
-                "pip install playwright && playwright install chromium, "
-                "then set ANAKIN_API_KEY."
+                "pip install playwright && playwright install chromium, then set "
+                "ANAKIN_API_KEY — Anakin's stealth cloud browser handles anti-bot upstream."
             ),
         }
 
