@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARGUS — Read the web. Reason it through. Get it done.</title>
+<link rel="stylesheet" href="/static/styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">◉</div>
+    <div class="brand-text">
+      <h1>ARGUS</h1>
+      <p>Read the web. Reason it through. Get it done.</p>
+    </div>
+  </div>
+  <div class="status-cluster">
+    <span class="pill" id="pill-mode"><i class="dot"></i><span>connecting…</span></span>
+    <span class="pill" id="pill-anakin">Anakin —</span>
+    <span class="pill" id="pill-llm">Reasoner —</span>
+    <span class="pill pill-credit" id="pill-credit" title="Anakin credit ledger">0 credits</span>
+  </div>
+</header>
+
+<main class="shell">
+
+  <!-- ================= LEFT: composer + trace ================= -->
+  <section class="col-main">
+
+    <div class="card composer">
+      <label for="goal">What do you want done?</label>
+      <div class="composer-row">
+        <input id="goal" type="text" autocomplete="off" spellcheck="false"
+               placeholder="e.g. Find the best 65-inch OLED TV under $1,500 for gaming and prepare the purchase" />
+        <button id="run" class="btn-primary">Run agent</button>
+      </div>
+      <div class="presets" id="presets"></div>
+      <p class="hint">
+        ARGUS reads live sites through Anakin, reasons over what it finds, then acts —
+        pausing for your approval before anything irreversible.
+      </p>
+    </div>
+
+    <div class="phaserail card" id="phaserail">
+      <div class="phase" data-phase="read">
+        <div class="phase-head"><span class="phase-num">1</span><span class="phase-name">READ</span></div>
+        <div class="phase-desc">Discover which of Anakin's ~960 sites matter, then pull live data.</div>
+        <div class="phase-bar"><i></i></div>
+      </div>
+      <div class="phase" data-phase="reason">
+        <div class="phase-head"><span class="phase-num">2</span><span class="phase-name">REASON</span></div>
+        <div class="phase-desc">Score on weighted criteria, then adversarially critique the winner.</div>
+        <div class="phase-bar"><i></i></div>
+      </div>
+      <div class="phase" data-phase="act">
+        <div class="phase-head"><span class="phase-num">3</span><span class="phase-name">ACT</span></div>
+        <div class="phase-desc">Execute the decision. Irreversible steps wait for your sign-off.</div>
+        <div class="phase-bar"><i></i></div>
+      </div>
+    </div>
+
+    <div class="card trace-card">
+      <div class="card-head">
+        <h2>Agent trace</h2>
+        <div class="trace-tools">
+          <span class="muted" id="trace-count">0 events</span>
+          <button class="btn-ghost" id="autoscroll" aria-pressed="true">Auto-scroll on</button>
+          <button class="btn-ghost" id="clear-trace">Clear</button>
+        </div>
+      </div>
+      <div class="trace" id="trace">
+        <div class="empty" id="trace-empty">
+          <div class="empty-mark">◉</div>
+          <p>No run yet. Give ARGUS a goal above — it will narrate every step it takes.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= RIGHT: decision / evidence / action ================= -->
+  <aside class="col-side">
+
+    <div class="card" id="decision-card">
+      <div class="card-head">
+        <h2>Decision</h2>
+        <span class="muted" id="decision-state">waiting</span>
+      </div>
+      <div id="decision-body">
+        <p class="placeholder">The reasoned recommendation appears here once ARGUS has read the web.</p>
+      </div>
+    </div>
+
+    <div class="card" id="action-card">
+      <div class="card-head">
+        <h2>Action</h2>
+        <span class="muted" id="action-state">—</span>
+      </div>
+      <div id="action-body">
+        <p class="placeholder">ARGUS proposes an action after it decides. Nothing irreversible runs without you.</p>
+      </div>
+    </div>
+
+    <div class="card" id="surface-card">
+      <div class="card-head">
+        <h2>Anakin surface used</h2>
+        <span class="muted" id="surface-count">0 calls</span>
+      </div>
+      <div id="surface-body">
+        <p class="placeholder">Every Anakin endpoint ARGUS touches, with latency and credits.</p>
+      </div>
+    </div>
+
+    <div class="card" id="evidence-card">
+      <div class="card-head">
+        <h2>Evidence</h2>
+        <span class="muted" id="evidence-count">0 items</span>
+      </div>
+      <div class="filters" id="evidence-filters">
+        <button class="chip active" data-kind="all">All</button>
+        <button class="chip" data-kind="listing">Listings</button>
+        <button class="chip" data-kind="review">Reviews</button>
+        <button class="chip" data-kind="signal">Signals</button>
+        <button class="chip" data-kind="page">Pages</button>
+      </div>
+      <div class="evidence-list" id="evidence-list">
+        <p class="placeholder">Grounded facts with source URLs and retrieval times appear here.</p>
+      </div>
+    </div>
+
+  </aside>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# ARGUS — full runtime, adds the real "ACT" layer (cloud browser automation)
+-r requirements.txt
+
+# Browser API: connect Playwright to Anakin's stealth browser over CDP.
+# Needed only for the live form-filling / checkout action. ARGUS degrades
+# gracefully to a dry-run simulator when this is absent.
+playwright>=1.45.0
+
+# Optional: official Anakin SDK (ARGUS uses its own thin httpx client by
+# default so that Zero Touch / no-key mode works identically).
+anakin-sdk>=0.1.0
+
+# Dev / verification
+pytest>=8.2.0
