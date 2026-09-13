@@ -4,6 +4,9 @@
 
 **Read the web. Reason it through. Get it done.**
 
+🟢 **Try it live (no signup, full pipeline):** https://anakin-forge-hackathon.onrender.com
+&nbsp;&nbsp;&nbsp;*Runs keyless by default. First load after idle takes ~1 min (free hosting).*
+
 An autonomous agent that takes a goal written in plain English, reads the live web to
 ground it, reasons its way to a defensible decision, and then *does something about it* —
 pausing for a human before anything irreversible.
