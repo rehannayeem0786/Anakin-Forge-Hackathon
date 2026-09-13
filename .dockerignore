@@ -1,0 +1,18 @@
+# Never bake secrets or local state into the image.
+.venv/
+.git/
+.gitignore
+.env
+.env.example
+.workbuddy-ai/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Local run output and dev tooling.
+artifacts/
+tests/
+docs/
+
+# Render blueprint lives in the repo but is not needed inside the image.
+render.yaml

@@ -1,0 +1,12 @@
+# Render blueprint — one-click deploy from the GitHub repo.
+# https://dashboard.render.com/select-repo → New → Blueprint
+services:
+  - type: web
+    name: argus
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /api/config
+    # Deployed keyless by design (Zero Touch). To unlock the stealth cloud
+    # browser on the public URL, add ANAKIN_API_KEY in the Render dashboard
+    # env vars — but note public visitors would then spend your credits.
