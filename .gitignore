@@ -20,6 +20,9 @@ env/
 artifacts/
 *.log
 
+# --- Private strategy docs (kept locally, never pushed) ---
+docs/*.md
+
 # --- Editors / OS ---
 .vscode/
 .idea/
